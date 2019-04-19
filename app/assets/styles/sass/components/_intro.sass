@@ -1,0 +1,98 @@
+$_intro-width: 50rem
+$_intro-full-height: 40rem
+$_intro-medium-height: 35rem
+$_intro-small-height: 5rem
+$circle-size: 30rem
+$_intro-color-light: #bbb
+$_intro-color-dark: #222
+
+body.body-intro
+  overflow: hidden
+
+=borders-left-right($width, $color)
+  border-left: $width solid $color
+  border-right: $width solid $color
+
+.intro
+  @extend %flex-center-center
+  @extend %showable
+  +size($_intro-width, $_intro-small-height)
+  position: relative
+  overflow: hidden
+    +borders-left-right(.4rem, $_intro-color-light)
+
+  &,
+  &__after--expanded::after
+    +borders-left-right(.4rem, $_intro-color-light)
+
+  &::before,
+  &::after
+    content: ''
+    position: absolute
+    box-sizing: border-box
+
+  &::before
+    +size($circle-size, $circle-size)
+    border-radius: 50%
+
+  &::after
+    opacity: 0
+
+  &,
+  &::after
+    transition: width 500ms ease-in-out, height 500ms ease-in-out, opacity 250ms ease-in-out
+
+  &--visible
+    border: 0
+
+  &__before--visible::before
+    background: $_intro-color-dark
+
+  &__after--visible::after
+    +size(0, $_intro-full-height)
+
+  &__after--visible::after,
+  &--shrinked
+    +borders-left-right(.2rem, $_intro-color-light)
+
+  &--shrinked
+    +size(0, $_intro-medium-height)
+
+  &--expanded
+    +size($_intro-width, $_intro-full-height)
+    border: 0
+    pointer-events: none
+
+  &__before--expanded::before
+    pointer-events: all
+
+  &__after--expanded::after
+    +size($_intro-width, $_intro-small-height)
+    opacity: 1
+
+  &__after--expanded-hide::after
+    opacity: 0
+
+
+.skip-intro
+  position: absolute
+  bottom: 5rem
+  background: rgba(0, 0, 0, 0.05)
+  padding: 1rem 3rem
+  overflow: hidden
+  font-size: 1.4rem
+
+  &::after
+    content: ''
+    position: absolute
+    left: -120%
+    top: 0
+    width: 100%
+    height: 100%
+    background: inherit
+    transform: skew(-30deg)
+    transition: left 0.25s ease-in-out
+
+  &:hover
+    &::after
+      left: 60%
