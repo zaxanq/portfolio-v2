@@ -21,9 +21,16 @@ html
 body
   +size(100%, 100%)
   flex-direction: column
-  @extend %flex-center-center
+  display: flex
+  justify-content: flex-start
+  align-items: center
   background-color: $color-light-200
   font-size: 1.6rem
 
 .button-text
   background: none
+
+.absolute
+  position: absolute
+  left: 0
+  top: 0

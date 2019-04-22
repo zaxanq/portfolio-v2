@@ -25,6 +25,7 @@ class Intro {
 
     defineHeader(headerClass) {
         this.header = document.getElementsByClassName(headerClass)[0];
+
     }
 
     showIntro() {
@@ -70,27 +71,39 @@ class Intro {
 
         setTimeout(() => {
             this.intro.classList.add('intro__after--clickme');
-            // this.skipIntro.classList.add('skip-intro--hide')
+            this.skipIntro.classList.add('skip-intro--hide')
         }, this.animationTime * i);
         i += 2;
 
         setTimeout(() => {
-            // this.skipIntro.remove();
+            this.skipIntro.remove();
         }, this.animationTime * i);
         i += 3;
 
-        setTimeout(() => {
+        const clickmeTimeout = setTimeout(() => {
             this.intro.classList.add('intro__before--clickme');
         }, this.animationTime * i);
 
         document.querySelectorAll('.intro')[0].addEventListener('click', () => {
+            clearTimeout(clickmeTimeout);
             this.intro.classList.remove('intro__before--clickme');
 
             setTimeout(() => {
                 this.intro.classList.add('intro--fullscreen');
                 this.intro.classList.add('intro__before--fullscreen');
             }, 0);
-        })
+
+            setTimeout(() => {
+                this.header.classList.remove('header--none');
+                this.header.classList.add('header--full');
+                this.intro.remove();
+            }, this.animationTime * 2);
+
+            setTimeout(() => {
+                this.header.classList.remove('header--full');
+                document.querySelectorAll('#intro-script')[0].remove();
+            }, this.animationTime * 4);
+        });
     }
 }
 
