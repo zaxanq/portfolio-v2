@@ -25,10 +25,13 @@ class Intro {
 
     defineHeader(headerClass) {
         this.header = document.getElementsByClassName(headerClass)[0];
-
     }
 
     showIntro() {
+        this.skipIntro.addEventListener('click', () => {
+            this.finishAnimation(true);
+        });
+
         let i = 1;
 
         setTimeout(() => {
@@ -93,17 +96,26 @@ class Intro {
                 this.intro.classList.add('intro__before--fullscreen');
             }, 0);
 
-            setTimeout(() => {
-                this.header.classList.remove('header--none');
-                this.header.classList.add('header--full');
-                this.intro.remove();
-            }, this.animationTime * 2);
-
-            setTimeout(() => {
-                this.header.classList.remove('header--full');
-                document.querySelectorAll('#intro-script')[0].remove();
-            }, this.animationTime * 4);
+            this.finishAnimation();
         });
+    }
+
+    finishAnimation(skipped = false) {
+        if (skipped) {
+            this.animationTime = 0;
+            this.skipIntro.remove();
+        }
+
+        setTimeout(() => {
+            this.header.classList.remove('header--none');
+            this.header.classList.add('header--full');
+            this.intro.remove();
+        }, this.animationTime * 2);
+
+        setTimeout(() => {
+            this.header.classList.remove('header--full');
+            document.querySelectorAll('#intro-script')[0].remove();
+        }, this.animationTime * 4);
     }
 }
 
