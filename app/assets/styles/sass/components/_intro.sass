@@ -6,6 +6,38 @@ $circle-size: 30rem
 $_intro-color-light: #bbb
 $_intro-color-dark: #222
 
+@keyframes clickme_after
+  0%
+    opacity: 1
+    +size($circle-size, $circle-size)
+
+  20%
+    opacity: 1
+    +size($circle-size + 1rem, $circle-size + 1rem)
+
+  40%
+    opacity: 0
+    +size($circle-size + 3rem, $circle-size + 3rem)
+
+  100%
+    opacity: 0
+    +size($circle-size, $circle-size)
+
+@keyframes clickme_before
+  0%,
+  12%,
+  30%,
+  42%,
+  54%,
+  100%
+    +size($circle-size, $circle-size)
+
+  6%,
+  36%,
+  48%
+    +size($circle-size - 1rem, $circle-size - 1rem)
+
+
 body.body-intro
   overflow: hidden
 
@@ -73,6 +105,23 @@ body.body-intro
   &__after--expanded-hide::after
     opacity: 0
 
+  &__after--clickme::after
+    border-radius: 50%
+    animation: clickme_after 1.5s infinite linear
+    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1)
+
+  &__before--clickme::before
+    cursor: pointer
+    animation: clickme_before 2.5s infinite linear
+
+  &--fullscreen
+    overflow: initial
+
+  &__before--fullscreen::before
+    transition: 1s ease-in-out
+    z-index: 10
+    +size(300vw, 300vw)
+
 
 .skip-intro
   position: absolute
@@ -81,6 +130,9 @@ body.body-intro
   padding: 1rem 3rem
   overflow: hidden
   font-size: 1.4rem
+  transition: opacity 0.75s ease-in-out
+  outline-style: none
+  cursor: pointer
 
   &::after
     content: ''
@@ -91,8 +143,18 @@ body.body-intro
     height: 100%
     background: inherit
     transform: skew(-30deg)
-    transition: left 0.25s ease-in-out
+    transition: left 0.25s ease-in-out, width 0.25s ease-in-out
 
   &:hover
     &::after
       left: 60%
+
+  &:active
+    //background: red
+    &::after
+      width: 150%
+      left: -20%
+
+  &--hide
+    opacity: 0
+    pointer-events: none
