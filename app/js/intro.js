@@ -1,6 +1,11 @@
 'use strict';
 
-class Intro {
+
+function aspectRatio() {
+    return window.innerWidth / window.innerHeight;
+}
+
+class IntroDesktop {
     init(time) {
         this.animationTime = time;
 
@@ -115,9 +120,44 @@ class Intro {
         setTimeout(() => {
             this.header.classList.remove('header--full');
             document.querySelectorAll('#intro-script')[0].remove();
+            document.body.removeAttribute('class');
+            this.header.classList.remove('absolute');
         }, this.animationTime * 4);
     }
 }
 
-let intro = new Intro();
-intro.init(500);
+class IntroMobile {
+    init(time) {
+        this.animationTime = time;
+
+        this.defineHeader('main-header');
+
+        this.showIntro();
+    }
+
+    defineHeader(headerClass) {
+        this.header = document.getElementsByClassName(headerClass)[0];
+        this.header.classList.remove('header--none');
+        this.header.classList.remove('absolute');
+        this.header.classList.add('header--full');
+    }
+
+    showIntro() {
+        let i = 1.5;
+
+        setTimeout(() => {
+            this.header.classList.remove('header--full');
+            this.header.classList.add('header--mobile');
+            document.querySelectorAll('#intro-script')[0].remove();
+        }, this.animationTime * i);
+    }
+}
+
+if (aspectRatio() >= 1) {
+    let introDesktop = new IntroDesktop();
+    introDesktop.init(500);
+} else {
+    let introMobile = new IntroMobile();
+    introMobile.init(500);
+
+}
